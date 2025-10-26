@@ -1,0 +1,84 @@
+@model JobPortalSystem.Models.Application
+@{
+    ViewData["Title"] = "Application Details";
+}
+
+<h2><i class="fas fa-file-alt"></i> Application Details</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-briefcase"></i> Job Information</h5>
+            </div>
+            <div class="card-body">
+                <h4>@Model.Job!.Title</h4>
+                <p><strong>Company:</strong> @Model.Job.Employer!.FirstName @Model.Job.Employer.LastName</p>
+                <p><strong>Category:</strong> @Model.Job.Category!.CategoryName</p>
+                <p><strong>Location:</strong> @Model.Job.Location</p>
+                <p><strong>Type:</strong> @Model.Job.Type</p>
+                <a asp-controller="Job" asp-action="Details" asp-route-id="@Model.JobID" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> View Full Job Details
+                </a>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.CoverLetter))
+        {
+            <div class="card mb-3">
+                <div class="card-header bg-info text-white">
+                    <h5><i class="fas fa-envelope"></i> Cover Letter</h5>
+                </div>
+                <div class="card-body">
+                    <p>@Model.CoverLetter</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5><i class="fas fa-info"></i> Application Status</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Status:</strong></p>
+                <h4>
+                    @if (Model.Status == "Applied")
+                    {
+                        <span class="badge bg-warning text-dark">@Model.Status</span>
+                    }
+                    else if (Model.Status == "Shortlisted")
+                    {
+                        <span class="badge bg-success">@Model.Status</span>
+                    }
+                    else if (Model.Status == "Rejected")
+                    {
+                        <span class="badge bg-danger">@Model.Status</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@Model.Status</span>
+                    }
+                </h4>
+                <hr />
+                <p><strong>Applied Date:</strong> @Model.AppliedDate.ToString("MMM dd, yyyy")</p>
+                @if (Model.UpdatedDate.HasValue)
+                {
+                    <p><strong>Last Updated:</strong> @Model.UpdatedDate.Value.ToString("MMM dd, yyyy")</p>
+                }
+                <hr />
+                <p><strong>Resume:</strong></p>
+                <a href="@Model.ResumePath" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-download"></i> View Resume
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-controller="Application" asp-action="MyApplications" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to My Applications
+    </a>
+</div>

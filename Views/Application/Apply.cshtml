@@ -1,0 +1,70 @@
+@model JobPortalSystem.ViewModels.ApplicationViewModel
+@{
+    ViewData["Title"] = "Apply for Job";
+}
+
+<h2><i class="fas fa-paper-plane"></i> Apply for Job</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-briefcase"></i> Job Details</h5>
+            </div>
+            <div class="card-body">
+                <h4>@Model.JobTitle</h4>
+                <p><strong>Company:</strong> @Model.CompanyName</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-file-upload"></i> Submit Application</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Apply" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="JobID" />
+
+                    <div class="mb-3">
+                        <label asp-for="ResumeFile" class="form-label"></label>
+                        <input asp-for="ResumeFile" type="file" class="form-control" accept=".pdf,.doc,.docx" />
+                        <small class="form-text text-muted">Accepted formats: PDF, DOC, DOCX (Max 5MB)</small>
+                        <span asp-validation-for="ResumeFile" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CoverLetter" class="form-label"></label>
+                        <textarea asp-for="CoverLetter" class="form-control" rows="6" placeholder="Tell the employer why you're a great fit for this role..."></textarea>
+                        <span asp-validation-for="CoverLetter" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                        <a asp-controller="Job" asp-action="Details" asp-route-id="@Model.JobID" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle"></i> Application Tips</h5>
+            <ul>
+                <li>Ensure your resume is up-to-date</li>
+                <li>Write a personalized cover letter</li>
+                <li>Highlight relevant skills and experience</li>
+                <li>Proofread before submitting</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

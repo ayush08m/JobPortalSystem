@@ -1,0 +1,108 @@
+@model JobPortalSystem.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Employer Dashboard";
+}
+
+<h2><i class="fas fa-building"></i> Employer Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Jobs</h5>
+                <h2>@Model.TotalJobs</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Active Jobs</h5>
+                <h2>@Model.ActiveJobs</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Applicants</h5>
+                <h2>@Model.TotalApplicants</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <a asp-controller="Employer" asp-action="PostJob" class="btn btn-success">
+            <i class="fas fa-plus"></i> Post New Job
+        </a>
+        <a asp-controller="Employer" asp-action="ManageJobs" class="btn btn-primary">
+            <i class="fas fa-list"></i> Manage All Jobs
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5><i class="fas fa-briefcase"></i> Recent Job Postings</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentJobs != null && Model.RecentJobs.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Category</th>
+                                    <th>Applications</th>
+                                    <th>Posted Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var job in Model.RecentJobs)
+                                {
+                                    <tr>
+                                        <td>@job.Title</td>
+                                        <td><span class="badge bg-info">@job.Category!.CategoryName</span></td>
+                                        <td>
+                                            <span class="badge bg-primary">@(job.Applications?.Count ?? 0) applicants</span>
+                                        </td>
+                                        <td>@job.PostedDate.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            @if (job.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Employer" asp-action="ViewApplicants" asp-route-jobId="@job.JobID" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-users"></i> Applicants
+                                            </a>
+                                            <a asp-controller="Employer" asp-action="EditJob" asp-route-id="@job.JobID" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No jobs posted yet. <a asp-controller="Employer" asp-action="PostJob">Post your first job</a>!</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

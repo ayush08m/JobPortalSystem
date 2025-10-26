@@ -1,0 +1,119 @@
+@model JobPortalSystem.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Seeker Dashboard";
+}
+
+<h2><i class="fas fa-tachometer-alt"></i> Job Seeker Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Applications</h5>
+                <h2>@Model.TotalApplications</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Pending</h5>
+                <h2>@Model.PendingApplications</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Shortlisted</h5>
+                <h2>@Model.ShortlistedApplications</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Rejected</h5>
+                <h2>@Model.RejectedApplications</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-file-alt"></i> Recent Applications</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentApplications != null && Model.RecentApplications.Any())
+                {
+                    <div class="list-group">
+                        @foreach (var app in Model.RecentApplications)
+                        {
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">@app.Job!.Title</h6>
+                                    <small>@app.AppliedDate.ToString("MMM dd, yyyy")</small>
+                                </div>
+                                <p class="mb-1">
+                                    <span class="badge bg-@(app.Status == "Applied" ? "warning" : app.Status == "Shortlisted" ? "success" : "danger")">
+                                        @app.Status
+                                    </span>
+                                </p>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No applications yet. <a asp-controller="Job" asp-action="Index">Browse jobs</a> to get started!</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-star"></i> Recommended Jobs</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecommendedJobs != null && Model.RecommendedJobs.Any())
+                {
+                    <div class="list-group">
+                        @foreach (var job in Model.RecommendedJobs)
+                        {
+                            <a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobID" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">@job.Title</h6>
+                                    <small>@job.PostedDate.ToString("MMM dd")</small>
+                                </div>
+                                <p class="mb-1"><small class="text-muted"><i class="fas fa-map-marker-alt"></i> @job.Location</small></p>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No recommendations available yet.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <a asp-controller="Job" asp-action="Index" class="btn btn-primary">
+            <i class="fas fa-search"></i> Browse All Jobs
+        </a>
+        <a asp-controller="Application" asp-action="MyApplications" class="btn btn-outline-primary">
+            <i class="fas fa-list"></i> View All Applications
+        </a>
+        <a asp-controller="Seeker" asp-action="Profile" class="btn btn-outline-secondary">
+            <i class="fas fa-user"></i> Edit Profile
+        </a>
+    </div>
+</div>

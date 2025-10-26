@@ -1,0 +1,135 @@
+@model JobPortalSystem.ViewModels.JobViewModel
+@{
+    ViewData["Title"] = "Post New Job";
+}
+
+<h2><i class="fas fa-plus-circle"></i> Post New Job</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-briefcase"></i> Job Details</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="PostJob" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" placeholder="e.g. Senior .NET Developer" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="5" placeholder="Provide detailed job description..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CategoryID" class="form-label"></label>
+                            <select asp-for="CategoryID" class="form-select">
+                                <option value="">-- Select Category --</option>
+                                @if (ViewBag.Categories != null)
+                                {
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.CategoryID">@category.CategoryName</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryID" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Type" class="form-label"></label>
+                            <select asp-for="Type" class="form-select">
+                                <option value="">-- Select Type --</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Remote">Remote</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Location" class="form-label"></label>
+                            <input asp-for="Location" class="form-control" placeholder="e.g. New York, NY" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Experience" class="form-label"></label>
+                            <select asp-for="Experience" class="form-select">
+                                <option value="">-- Select Experience --</option>
+                                <option value="Entry Level">Entry Level (0-2 years)</option>
+                                <option value="Mid Level">Mid Level (2-5 years)</option>
+                                <option value="Senior Level">Senior Level (5+ years)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MinSalary" class="form-label"></label>
+                            <input asp-for="MinSalary" type="number" class="form-control" placeholder="50000" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MaxSalary" class="form-label"></label>
+                            <input asp-for="MaxSalary" type="number" class="form-control" placeholder="80000" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Requirements" class="form-label"></label>
+                        <textarea asp-for="Requirements" class="form-control" rows="4" placeholder="List required skills, qualifications, and experience..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Benefits" class="form-label"></label>
+                        <textarea asp-for="Benefits" class="form-control" rows="4" placeholder="List benefits and perks..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="LastDate" class="form-label"></label>
+                        <input asp-for="LastDate" type="date" class="form-control" />
+                        <span asp-validation-for="LastDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-paper-plane"></i> Post Job
+                        </button>
+                        <a asp-controller="Employer" asp-action="Dashboard" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle"></i> Posting Tips</h5>
+            <ul>
+                <li>Write a clear, descriptive job title</li>
+                <li>Include detailed job responsibilities</li>
+                <li>List required qualifications</li>
+                <li>Mention salary range if possible</li>
+                <li>Set a realistic application deadline</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

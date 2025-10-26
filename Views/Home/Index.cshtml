@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="jumbotron bg-light p-5 rounded-3 mb-4">
+    <div class="container-fluid py-5 text-center">
+        <h1 class="display-4">Welcome to Job Portal</h1>
+        <p class="lead">Find your dream job or hire the best talent</p>
+        <hr class="my-4">
+        <div class="row mt-4">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-user-graduate"></i> For Job Seekers</h5>
+                        <p class="card-text">Browse thousands of job opportunities and apply with one click</p>
+                        <a asp-controller="Job" asp-action="Index" class="btn btn-primary">Browse Jobs</a>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-building"></i> For Employers</h5>
+                        <p class="card-text">Post jobs and find the perfect candidates for your company</p>
+                        <a asp-controller="Employer" asp-action="PostJob" class="btn btn-success">Post a Job</a>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-success">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5 text-center">
+    <div class="col-md-4">
+        <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+        <h4>Find Jobs</h4>
+        <p>Browse jobs from top companies</p>
+    </div>
+    <div class="col-md-4">
+        <i class="fas fa-list fa-3x text-success mb-3"></i>
+        <h4>Multiple Categories</h4>
+        <p>Across various industries</p>
+    </div>
+    <div class="col-md-4">
+        <i class="fas fa-users fa-3x text-info mb-3"></i>
+        <h4>Easy Apply</h4>
+        <p>Submit applications with one click</p>
+    </div>
+</div>

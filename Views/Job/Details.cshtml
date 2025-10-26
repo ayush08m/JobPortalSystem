@@ -1,0 +1,83 @@
+@model JobPortalSystem.Models.Job
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>@Model.Title</h2>
+        <p class="lead">
+            <i class="fas fa-building"></i> @Model.Employer!.FirstName @Model.Employer.LastName |
+            <i class="fas fa-map-marker-alt"></i> @Model.Location |
+            <i class="fas fa-briefcase"></i> @Model.Type
+        </p>
+        
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-info-circle"></i> Job Description</h5>
+            </div>
+            <div class="card-body">
+                <p>@Model.Description</p>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Requirements))
+        {
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-check-circle"></i> Requirements</h5>
+                </div>
+                <div class="card-body">
+                    <p>@Model.Requirements</p>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Benefits))
+        {
+            <div class="card mb-3">
+                <div class="card-header bg-info text-white">
+                    <h5><i class="fas fa-gift"></i> Benefits</h5>
+                </div>
+                <div class="card-body">
+                    <p>@Model.Benefits</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5><i class="fas fa-info"></i> Job Details</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Category:</strong> @Model.Category!.CategoryName</p>
+                <p><strong>Type:</strong> @Model.Type</p>
+                @if (!string.IsNullOrEmpty(Model.Experience))
+                {
+                    <p><strong>Experience:</strong> @Model.Experience</p>
+                }
+                @if (Model.MinSalary.HasValue && Model.MaxSalary.HasValue)
+                {
+                    <p><strong>Salary:</strong> $@Model.MinSalary - $@Model.MaxSalary</p>
+                }
+                <p><strong>Posted:</strong> @Model.PostedDate.ToString("MMM dd, yyyy")</p>
+                <p><strong>Deadline:</strong> @Model.LastDate.ToString("MMM dd, yyyy")</p>
+                <hr />
+                @if (User.Identity!.IsAuthenticated && User.IsInRole("Seeker"))
+                {
+                    <a asp-controller="Application" asp-action="Apply" asp-route-jobId="@Model.JobID" class="btn btn-primary w-100">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </a>
+                }
+                else if (!User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary w-100">
+                        Login to Apply
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

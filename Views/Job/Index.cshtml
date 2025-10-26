@@ -1,0 +1,119 @@
+@model IEnumerable<JobPortalSystem.Models.Job>
+@{
+    ViewData["Title"] = "Browse Jobs";
+    var jobCount = Model?.Count() ?? 0;
+}
+
+<!-- DEBUG SECTION - REMOVE AFTER FIXING -->
+<div class="alert alert-info">
+    <h5><i class="fas fa-info-circle"></i> Debug Information</h5>
+    <p><strong>Total Jobs Found:</strong> @jobCount</p>
+    <p><strong>Current User:</strong> @User.Identity!.Name</p>
+    <p><strong>User Role:</strong> @(User.IsInRole("Seeker") ? "Seeker" : User.IsInRole("Employer") ? "Employer" : User.IsInRole("Admin") ? "Admin" : "Not Logged In")</p>
+    @if (jobCount > 0)
+    {
+        <p><strong>Job Details:</strong></p>
+        <ul>
+            @foreach (var job in Model!)
+            {
+                <li>
+                    @job.Title - Posted: @job.PostedDate.ToString("yyyy-MM-dd") 
+                    - Deadline: @job.LastDate.ToString("yyyy-MM-dd") 
+                    - Active: @job.IsActive
+                    - Status: @job.Status
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<h2><i class="fas fa-briefcase"></i> Browse Jobs</h2>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form asp-action="Index" method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" name="searchString" class="form-control" placeholder="Search jobs..." />
+            </div>
+            <div class="col-md-3">
+                <select name="categoryId" class="form-select">
+                    <option value="">All Categories</option>
+                    @if (ViewBag.Categories != null)
+                    {
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category.CategoryID">@category.CategoryName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="location" class="form-control" placeholder="Location..." />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var job in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@job.Title</h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                @if (job.Employer != null)
+                                {
+                                    <i class="fas fa-building"></i> @job.Employer.FirstName @job.Employer.LastName<br/>
+                                }
+                                <i class="fas fa-map-marker-alt"></i> @job.Location<br/>
+                                @if (job.Category != null)
+                                {
+                                    <i class="fas fa-tag"></i> @job.Category.CategoryName<br/>
+                                }
+                                <i class="fas fa-briefcase"></i> @job.Type
+                            </small>
+                        </p>
+                        <p class="card-text">
+                            @if (job.Description.Length > 150)
+                            {
+                                @job.Description.Substring(0, 150)<text>...</text>
+                            }
+                            else
+                            {
+                                @job.Description
+                            }
+                        </p>
+                        <a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobID" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Posted @job.PostedDate.ToString("MMM dd, yyyy")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="alert alert-warning">
+                <h5><i class="fas fa-exclamation-triangle"></i> No Jobs Found</h5>
+                <p>There are currently no active job postings.</p>
+                @if (User.IsInRole("Employer"))
+                {
+                    <a asp-controller="Employer" asp-action="PostJob" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Post Your First Job
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
