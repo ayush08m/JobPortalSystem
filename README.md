@@ -146,15 +146,6 @@ To enable email notifications, update `appsettings.json`:
 
 Get your SendGrid API key from [SendGrid](https://sendgrid.com/).
 
-### 2. Default Admin Account
-
-The system creates a default admin account on first run:
-
-- **Email:** `admin@jobportal.com`
-- **Password:** `Admin@123`
-
-⚠️ **Important:** Change this password after first login in production!
-
 ## 🏃 Running the Application
 
 ### Development Mode
@@ -201,3 +192,9 @@ The system supports three user roles:
 <img width="1918" height="1021" alt="Screenshot 2025-10-26 201151" src="https://github.com/user-attachments/assets/4ef5f3d0-6cbb-4910-9c53-81543030d0e9" />
 <img width="1918" height="1020" alt="Screenshot 2025-10-26 201143" src="https://github.com/user-attachments/assets/2fe8cc24-e4e7-451b-b85e-e7d7afc20327" />
 
+👨‍💻 Author
+
+Ayush More
+
+Github:@ayush08m
+Project Link :https://github.com/ayush08m/JobPortalSystem
